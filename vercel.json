@@ -1,5 +1,6 @@
 {
     "version": 2,
+<<<<<<< HEAD
     "builds": [
       {
         "src": "./index.js",
@@ -13,4 +14,8 @@
         "methods": ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
       }
     ]
+=======
+    "builds": [{ "src": "index.js", "use": "@vercel/node" }],
+    "rewrites": [{ "source": "/(.*)", "destination": "index.js" }]
+>>>>>>> ebeda53d2b9966e9dd4c5418ce80460adfec0865
   }
