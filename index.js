@@ -60,6 +60,61 @@ app.post("/books", async (req, res) => {
   }
 });
 
+// Get a specific book by ID
+app.get("/books/:id", async (req, res) => {
+  const bookId = req.params.id;
+  try {
+    const book = await Books.findById(bookId);
+    if (!book) {
+      return res.status(404).json({ error: "Book not found" });
+    }
+    res.json(book);
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+// Update a book
+app.put("/books/:id", async (req, res) => {
+  const bookId = req.params.id;
+  const updatedBookData = req.body;
+
+  try {
+    const updatedBook = await Books.findByIdAndUpdate(
+      bookId,
+      updatedBookData,
+      { new: true }
+    );
+    if (!updatedBook) {
+      return res.status(404).json({ message: "Book not found" });
+    }
+
+    res.status(200).json(updatedBook);
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+// Delete a book
+app.delete("/books/:id", async (req, res) => {
+  const bookId = req.params.id;
+
+  try {
+    const deletedBook = await Books.findByIdAndRemove(bookId);
+
+    if (!deletedBook) {
+      return res.status(404).json({ error: "Book not found" });
+    }
+
+    res.status(200).json({
+      message: "Book deleted successfully",
+      book: deletedBook,
+    });
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
